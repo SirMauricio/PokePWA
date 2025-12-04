@@ -1,40 +1,73 @@
 pipeline {
     agent any
 
+    environment {
+        SONARQUBE_SERVER = 'SonarQube' 
+        VERCEL_TOKEN = credentials('vercel-token')
+    }
+
     stages {
-
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/SirMauricio/PokePWA.git'
-            }
-        }
-
         stage('Instalar dependencias') {
             steps {
-                sh 'npm install'
+                script {
+                
+                    sh 'npm install'
+                }
             }
         }
 
-        stage('Build de React') {
+        stage('Ejecutar tests unitarios') {
             steps {
-                sh 'npm run build'
+                script {
+                    sh 'npm test'
+                }
             }
         }
 
-        stage('Preview (opcional)') {
+        stage('Análisis SonarQube') {
             steps {
-                echo 'Build generado correctamente'
+                script {
+                    withSonarQubeEnv(SONARQUBE_SERVER) {
+                        sh 'npm run sonar'
+                    }
+                }
             }
         }
 
-        stage('Deploy a Vercel') {
+        stage('Quality Gate') {
             steps {
-                withCredentials([string(credentialsId: 'VERCEL_TOKEN', variable: 'VERCEL_TOKEN')]) {
-                    sh 'npm install -g vercel'
-                    sh 'vercel --prod --token=$VERCEL_TOKEN'
+                script {
+                    timeout(time: 5, unit: 'MINUTES') {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline abortado por Quality Gate: ${qg.status}"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Despliegue a producción') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    sh "npx vercel --prod --token=${VERCEL_TOKEN}"
                 }
             }
         }
     }
+
+    post {
+        failure {
+            echo 'El pipeline falló :('
+        }
+        success {
+            echo 'Pipeline completado exitosamente :)'
+        }
+    }
 }
+
+
+
