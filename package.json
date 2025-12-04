@@ -8,7 +8,8 @@
   "build": "vite build",
   "preview": "vite preview",
   "lint": "eslint .",
-  "sonar": "sonar-scanner"
+  "sonar": "sonar-scanner",
+  "test": "echo \"No hay tests configurados\" && exit 0"
 },
   "dependencies": {
     "react": "^19.2.0",
