@@ -9,34 +9,28 @@ pipeline {
     stages {
         stage('Instalar dependencias') {
             steps {
-                script {
-                    bat 'npm install'
-                }
+                bat 'npm install'
             }
         }
 
         stage('Ejecutar tests unitarios') {
             steps {
-                script {
-                    bat 'npm test'
-                }
+                bat 'npm test'
             }
         }
 
         stage('Análisis SonarQube') {
             steps {
-                script {
-                    withSonarQubeEnv(SONARQUBE_SERVER) {
-                        bat 'npm run sonar'
-                    }
+                withSonarQubeEnv(SONARQUBE_SERVER) {
+                    bat 'npm run sonar'
                 }
             }
         }
 
         stage('Quality Gate') {
             steps {
-                script {
-                    timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 5, unit: 'MINUTES') {
+                    script {
                         def qg = waitForQualityGate()
                         if (qg.status != 'OK') {
                             error "Pipeline abortado por Quality Gate: ${qg.status}"
@@ -51,9 +45,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                script {
-                    bat "npx vercel --prod --token=${VERCEL_TOKEN}"
-                }
+                bat "npx vercel --prod --token=${VERCEL_TOKEN}"
             }
         }
     }
@@ -67,7 +59,6 @@ pipeline {
         }
     }
 }
-
 
 
 
