@@ -10,8 +10,7 @@ pipeline {
         stage('Instalar dependencias') {
             steps {
                 script {
-                
-                    sh 'npm install'
+                    bat 'npm install'
                 }
             }
         }
@@ -19,7 +18,7 @@ pipeline {
         stage('Ejecutar tests unitarios') {
             steps {
                 script {
-                    sh 'npm test'
+                    bat 'npm test'
                 }
             }
         }
@@ -28,7 +27,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv(SONARQUBE_SERVER) {
-                        sh 'npm run sonar'
+                        bat 'npm run sonar'
                     }
                 }
             }
@@ -53,7 +52,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh "npx vercel --prod --token=${VERCEL_TOKEN}"
+                    bat "npx vercel --prod --token=${VERCEL_TOKEN}"
                 }
             }
         }
@@ -68,6 +67,7 @@ pipeline {
         }
     }
 }
+
 
 
 
