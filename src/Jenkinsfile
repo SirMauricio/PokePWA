@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/SirMauricio/PokePWA.git'
+            }
+        }
+
+        stage('Instalar dependencias') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Build de React') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Preview (opcional)') {
+            steps {
+                echo 'Build generado correctamente'
+            }
+        }
+
+        stage('Deploy a Vercel') {
+            steps {
+                withCredentials([string(credentialsId: 'VERCEL_TOKEN', variable: 'VERCEL_TOKEN')]) {
+                    sh 'npm install -g vercel'
+                    sh 'vercel --prod --token=$VERCEL_TOKEN'
+                }
+            }
+        }
+    }
+}

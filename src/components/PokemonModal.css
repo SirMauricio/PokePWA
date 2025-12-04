@@ -1,0 +1,183 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-container {
+    background: white;
+    width: 90%;
+    max-width: 420px;
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.close-btn {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-id {
+    font-weight: bold;
+    color: #666;
+}
+
+.modal-img {
+    width: 180px;
+    margin: 10px auto;
+    display: block;
+}
+
+.modal-section {
+    margin-top: 20px;
+}
+
+.type-container {
+    display: flex;
+    gap: 10px;
+}
+
+.type-badge {
+    padding: 6px 12px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* Colores simples por tipo */
+.type-fire {
+    background: #ff6f5e;
+}
+
+.type-water {
+    background: #3f8dfc;
+}
+
+.type-grass {
+    background: #4caf50;
+}
+
+.type-electric {
+    background: #f7d02c;
+}
+
+.type-psychic {
+    background: #f95587;
+}
+
+.type-rock {
+    background: #b6a136;
+}
+
+.type-ground {
+    background: #e2c16b;
+}
+
+.type-ghost {
+    background: #735797;
+}
+
+.type-poison {
+    background: #a33ea1;
+}
+
+.type-bug {
+    background: #a6b91a;
+}
+
+.type-normal {
+    background: #a8a77a;
+}
+
+.type-fighting {
+    background: #c22e28;
+}
+
+.type-fairy {
+    background: #d685ad;
+}
+
+.type-dragon {
+    background: #6f35fc;
+}
+
+.type-ice {
+    background: #96d9d6;
+}
+
+.type-dark {
+    background: #705746;
+}
+
+.type-steel {
+    background: #b7b7ce;
+}
+
+.type-flying {
+    background: #a98ff3;
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-bar {
+    flex: 1;
+    background: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 10px;
+}
+
+.stat-fill {
+    height: 100%;
+    background: #4caf50;
+}
+
+.stat-value {
+    font-weight: bold;
+}
+
+.favorite-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 12px;
+    border: none;
+    background: #ddd;
+}
+
+.favorite-btn.active {
+    background: #ffca28;
+}
