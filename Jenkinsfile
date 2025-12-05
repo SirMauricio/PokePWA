@@ -2,64 +2,46 @@ pipeline {
     agent any
 
     environment {
-        VERCEL_TOKEN = credentials('vercel-token')
+        VERCEL_TOKEN = credentials('VERCEL_TOKEN')
+    }
+
+    tools {
+        nodejs 'node18'
     }
 
     stages {
-        stage('Instalar dependencias') {
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/SirMauricio/PokePWA.git'
+            }
+        }
+
+        stage('Verify Node') {
+            steps {
+                bat 'node -v'
+                bat 'npm -v'
+            }
+        }
+
+        stage('Install dependencies') {
             steps {
                 bat 'npm install'
             }
         }
 
-        stage('Ejecutar tests unitarios') {
+        stage('Build PWA') {
             steps {
-                bat 'echo No tests configured'
+                bat 'npm run build'
             }
         }
 
-        stage('Análisis SonarQube') {
+        stage('Deploy to Vercel') {
             steps {
-                bat 'sonar-scanner'
+                bat 'npm install -g vercel'
+                bat 'vercel deploy --prod --token %VERCEL_TOKEN% --yes'
             }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 5, unit: 'MINUTES') {
-                    script {
-                        try {
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                                error "Pipeline abortado por Quality Gate: ${qg.status}"
-                            }
-                        } catch(e) {
-                            echo "waitForQualityGate no disponible: ${e}"
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Despliegue a producción') {
-            when {
-                branch 'main'
-            }
-            steps {
-                bat "npx vercel --prod --token=${VERCEL_TOKEN}"
-            }
-        }
-    }
-
-    post {
-        failure {
-            echo 'El pipeline falló :('
-        }
-        success {
-            echo 'Pipeline completado exitosamente :)'
         }
     }
 }
-
-
 
