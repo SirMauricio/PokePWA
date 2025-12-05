@@ -12,36 +12,35 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'main', 
                     url: 'https://github.com/SirMauricio/PokePWA.git'
             }
         }
 
         stage('Verify Node') {
             steps {
-                bat 'node -v'
-                bat 'npm -v'
+                sh 'node -v'
+                sh 'npm -v'
             }
         }
 
         stage('Install dependencies') {
             steps {
-                bat 'npm install'
+                sh 'npm install'
             }
         }
 
         stage('Build PWA') {
             steps {
-                bat 'npm run build'
+                sh 'npm run build'
             }
         }
 
         stage('Deploy to Vercel') {
             steps {
-                bat 'npm install -g vercel'
-                bat 'vercel deploy --prod --token %VERCEL_TOKEN% --yes'
+                sh 'npm install -g vercel'
+                sh 'vercel deploy --prod --token $VERCEL_TOKEN --yes'
             }
         }
     }
 }
-
