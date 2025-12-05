@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "type": "module",
 "scripts": {
+  "test": "echo \"No tests defined\" && exit 0",
   "dev": "vite",
   "build": "vite build",
   "preview": "vite preview",
   "lint": "eslint .",
-  "sonar": "sonar-scanner",
-  "test": "echo \"No hay tests configurados\" && exit 0"
+  "sonar": "sonar-scanner"
 },
   "dependencies": {
     "react": "^19.2.0",
