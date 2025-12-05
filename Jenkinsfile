@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', 
+                git branch: 'main',
                     url: 'https://github.com/SirMauricio/PokePWA.git'
             }
         }
@@ -44,3 +44,4 @@ pipeline {
         }
     }
 }
+
